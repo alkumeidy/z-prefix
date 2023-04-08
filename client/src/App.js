@@ -7,8 +7,6 @@ import { Routes, Route } from 'react-router-dom'
 import Register from './components/Register'
 import Login from './components/Login'
 import MyInventory from './components/MyInventory';
-// import { LoggedInContext, UserInfoContext } from './Login'
-import ContextProviders from './components/ContextProviders';
 
 export const LoggedInContext = createContext({
   loggedIn: false,
@@ -27,14 +25,9 @@ function App() {
     const [users, setUsers] = useState();
     const [user, setUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
-
-
-    // const loggedInContext = React.createContext(false)
-    // const userContext = React.createContext({})
     
     return (
     <>
-      <ContextProviders loggedIn={[loggedIn, setLoggedIn]} user={[user, setUser]}>
       <AppNavbar />
         <Routes>
           <Route exact path="/" element={<Login />} />
@@ -44,7 +37,6 @@ function App() {
           <Route path="/Inventory/:id" element={<Inventory />}/>
           <Route path="/my-inventory" element={<MyInventory />}/>
         </Routes>
-      </ContextProviders>
     </>
     )
 }

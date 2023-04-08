@@ -1,13 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Button, Row, Col} from 'react-bootstrap';
-import LoggedInContext from '../App'
-import ContextProviders from "./ContextProviders";
+import { Button} from 'react-bootstrap';
 
-
-
+const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
 function MyInventory() {
     const [inventory, setInventory] = useState([]);
@@ -15,10 +12,8 @@ function MyInventory() {
     const [quantity, setQuantity] = useState(0);
     const [description, setDescription] = useState("");
     const [editState, setEditState] = useState(false);
-
-    let thing = useContext(ContextProviders)
-    console.log("thing: ", thing)
-
+    const loggedIn = [initialStateSaved][0][0].loggedIn
+    const user = [initialStateSaved][0][0].user
 
     useEffect(() => {
         fetch("http://localhost:8080/my-inventory/", {

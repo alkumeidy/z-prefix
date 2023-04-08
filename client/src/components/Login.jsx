@@ -1,23 +1,15 @@
 import React, { useEffect, useState, useContext, createContext } from "react";
-import ContextProviders from "./ContextProviders";
-// import ContextProviders from "./ContextProviders";
-// import { Routes, Route } from 'react-router-dom'
-import { LoggedInContext } from "../App";
-import { UserInfoContext } from "../App";
+import { setGlobalState, useGlobalState } from './state'
 
+const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
-// export const LoggedInContext = createContext(false);
-// export const UserInfoContext = createContext({});
+console.log("state on login: ", initialStateSaved)
 
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState([]);
-    const [user, setUser] = useState({});
-    const [loggedIn, setLoggedIn] = useState(false);
-    // const [isLoggedIn, setIsLoggedIn] = useContext(ContextProviders);
-
-    // const userInfo = useContext(UserInfoContext)
+    // const [loggedIn, setLoggedIn] = useGlobalState('loggedIn');   
 
     useEffect(() => {
             fetch("http://localhost:8080/users", {
@@ -30,24 +22,29 @@ function Login() {
                 .then((data) => setUsers(data))
     }, []);
 
+
+    
     function loginEval(){
         const un = username;
         const pw = password;
 
-        // console.log("login state: ", isLoggedIn)
+        const updateLogStatus = (user) => {
+            setGlobalState("loggedIn", true)
+            setGlobalState("user", user)
+            window.sessionStorage.setItem("reducer", JSON.stringify([{"loggedIn": true, "user": user}]));
+        }
 
         for (let user of users) {
             if (user.username === un && user.password === pw) {
-                setUser(user)
-                setLoggedIn(true)
-                return (alert("Successful login"))
+                updateLogStatus(user);
+
+                return (alert("Logged in successfully."))
+                
             } else {
                 continue;
             } 
         } return (alert(`No matching records found for that username and password combination.`))
     }
-
-       
 
     return (
         <form>
@@ -86,8 +83,9 @@ function Login() {
     )
 }
 
-export function updateContext () {
-    
-}
+// export function updateContext () {
+//     const setLoggedIn = useContext(LoggedInContext)
+
+// }
 
 export default Login;
