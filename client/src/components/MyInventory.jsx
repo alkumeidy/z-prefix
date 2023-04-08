@@ -6,6 +6,7 @@ import { Button} from 'react-bootstrap';
 
 const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
+
 function MyInventory() {
     const [inventory, setInventory] = useState([]);
     const [itemName, setItemName] = useState(""); 
@@ -16,7 +17,7 @@ function MyInventory() {
     const user = [initialStateSaved][0][0].user
 
     useEffect(() => {
-        fetch("http://localhost:8080/my-inventory/", {
+        fetch(`http://localhost:8080/my-inventory/${user.id}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -24,7 +25,7 @@ function MyInventory() {
         })
             .then((res) => res.json())
             .then((data) => setInventory(data))
-    }, [addItem, deleteItem]);
+    }, [addItem, deleteItem, user.id]);
 
     const inventoryArray = inventory.map((item) => <tr key={item.id} contentEditable={editState}>
         <td>{item.id}</td>
@@ -43,7 +44,7 @@ function MyInventory() {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         },
-        body: JSON.stringify({user_id: 1, item_name: itemName, quantity: quantity, description: description})
+        body: JSON.stringify({user_id: user.id, item_name: itemName, quantity: quantity, description: description})
         })
     }
 

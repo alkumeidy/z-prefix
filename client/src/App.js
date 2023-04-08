@@ -7,6 +7,13 @@ import { Routes, Route } from 'react-router-dom'
 import Register from './components/Register'
 import Login from './components/Login'
 import MyInventory from './components/MyInventory';
+import LoginError from './components/LoginError';
+
+// if (initialStateSaved === undefined) {
+//   const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
+// }
+// const loggedIn = [initialStateSaved][0][0].loggedIn
+// const user = [initialStateSaved][0][0].user
 
 export const LoggedInContext = createContext({
   loggedIn: false,
@@ -23,8 +30,7 @@ function App() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState();
-    const [user, setUser] = useState({});
-    const [loggedIn, setLoggedIn] = useState(false);
+
     
     return (
     <>
@@ -35,7 +41,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/Inventory" element={<Inventory />}/>
           <Route path="/Inventory/:id" element={<Inventory />}/>
-          <Route path="/my-inventory" element={<MyInventory />}/>
+          <Route path="/my-inventory/:id" element={<MyInventory /> }/>
+          {/* <Route path="/my-inventory/:id" element={loggedIn ? <MyInventory /> : <LoginError />}/> */}
         </Routes>
     </>
     )

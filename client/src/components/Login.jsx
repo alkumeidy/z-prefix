@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, createContext } from "react";
 import { setGlobalState, useGlobalState } from './state'
+import { useNavigate } from "react-router-dom";
 
 const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
@@ -34,11 +35,14 @@ function Login() {
             window.sessionStorage.setItem("reducer", JSON.stringify([{"loggedIn": true, "user": user}]));
         }
 
+        const Redirect = (user) => {
+            useNavigate(`http://localhost:3000/my-inventory/${user.id}`)
+        }
+
         for (let user of users) {
             if (user.username === un && user.password === pw) {
                 updateLogStatus(user);
-
-                return (alert("Logged in successfully."))
+                Redirect(user);
                 
             } else {
                 continue;

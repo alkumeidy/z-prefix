@@ -25,10 +25,12 @@ app.get('/inventory', function(req, res) {
   });
 
   app.get('/inventory/:id', (req, res) => {
+    let { inv_id } = req.params;
+    console.log(inv_id)
     knex
       .select('*')
       .from('inventory')
-      .where({id:req.params.id})
+      .where({id:inv_id})
       .then(data => res.status(200).json(data))
       .catch(err =>
         res.status(404).json({
@@ -94,10 +96,11 @@ app.get('/inventory', function(req, res) {
   });
 
   app.get('/my-inventory/:id', (req, res) => {
+    console.log("req: ", req)
     knex
       .select('*')
       .from('inventory')
-      .where({user_id:req.params.user_id})
+      .where({user_id:req.params.id})
       .then(data => res.status(200).json(data))
       .catch(err =>
         res.status(404).json({
