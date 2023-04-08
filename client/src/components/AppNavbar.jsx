@@ -1,11 +1,13 @@
 import {Container, Nav, Navbar} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 const loggedIn = [initialStateSaved][0][0].loggedIn
 const user = [initialStateSaved][0][0].user
 let href = `my-inventory/${user.id}`
 
 function AppNavbar() {
+
   return (
     <Navbar bg="primary" variant="dark">
     <Container>

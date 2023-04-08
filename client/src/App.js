@@ -36,13 +36,12 @@ function App() {
     <>
       <AppNavbar />
         <Routes>
-          <Route exact path="/" element={<Login />} />
+          <Route exact path="/" element={<Inventory />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/Inventory" element={<Inventory />}/>
           <Route path="/Inventory/:id" element={<Inventory />}/>
           <Route path="/my-inventory/:id" element={<MyInventory /> }/>
-          {/* <Route path="/my-inventory/:id" element={loggedIn ? <MyInventory /> : <LoginError />}/> */}
         </Routes>
     </>
     )

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
 
+//window.sessionStorage.setItem("reducer", JSON.stringify([{"loggedIn": false, "user": {}}]));
 const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
 function Inventory() {
+    
     const [inventory, setInventory] = useState([]);
     const loggedIn = [initialStateSaved][0][0].loggedIn
     const user = [initialStateSaved][0][0].user

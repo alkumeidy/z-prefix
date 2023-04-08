@@ -27,13 +27,27 @@ function MyInventory() {
             .then((data) => setInventory(data))
     }, [addItem, deleteItem, user.id]);
 
+    // const updateRow(rowId){
+    //     fetch('http://localhost:8080/inventory/', {
+    //         method: 'PATCH',
+    //         body: JSON.stringify({
+    //             //TODO: Add body to update rows
+    //         }),
+    //         headers: {
+    //             'Content-type': 'application/json; charset=UTF-8',
+    //         },
+    //         })
+    //         .then((response) => response.json())
+    //         .then((json) => console.log(json));
+    // }
+
     const inventoryArray = inventory.map((item) => <tr key={item.id} contentEditable={editState}>
         <td>{item.id}</td>
         <td>{item.user_id}</td>
         <td>{item.item_name}</td>
         <td>{item.description}</td>
         <td>{item.quantity}</td>
-        <td><input type="button" value="Update" /></td>
+        <td><input type="button" value="Update" onClick={e =>  alert(`TODO: Add row update func - row: ${e.target.parentNode.parentNode.firstChild.innerText}`)}/></td>
         <td><input type="button" value="Delete" onClick={e => deleteItem(item)}/></td>
         </tr> )
 
@@ -94,7 +108,7 @@ function MyInventory() {
       <InputGroup>
         <InputGroup.Text>Item Description</InputGroup.Text>
         <Form.Control as="textarea" aria-label="Item Description" onChange={e => setDescription(e.target.value)} />
-        <Button variant="outline-secondary" className="btn btn-success" id="button-addon2" onClick={() => addItem()}>
+        <Button variant="outline-secondary" className="btn" id="button-addon2" onClick={() => addItem()}>
           Add New Entry
         </Button>
       </InputGroup>

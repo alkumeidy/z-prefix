@@ -26,7 +26,6 @@ app.get('/inventory', function(req, res) {
 
   app.get('/inventory/:id', (req, res) => {
     let { inv_id } = req.params;
-    console.log(inv_id)
     knex
       .select('*')
       .from('inventory')
@@ -96,7 +95,6 @@ app.get('/inventory', function(req, res) {
   });
 
   app.get('/my-inventory/:id', (req, res) => {
-    console.log("req: ", req)
     knex
       .select('*')
       .from('inventory')
