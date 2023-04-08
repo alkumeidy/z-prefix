@@ -1,7 +1,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable('inventory', table => {
       table.increments('id');
-      table.integer('UserId').notNullable();
+      table.integer('user_id').notNullable();
       table.string('item_name');
       table.string('description');
       table.integer('quantity');

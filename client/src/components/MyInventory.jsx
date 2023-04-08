@@ -3,19 +3,25 @@ import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Button, Row, Col} from 'react-bootstrap';
-import App from "../App";
+import LoggedInContext from '../App'
+import ContextProviders from "./ContextProviders";
 
-function Inventory() {
+
+
+
+function MyInventory() {
     const [inventory, setInventory] = useState([]);
     const [itemName, setItemName] = useState(""); 
     const [quantity, setQuantity] = useState(0);
     const [description, setDescription] = useState("");
     const [editState, setEditState] = useState(false);
 
-    // const loggedIn = useContext()
+    let thing = useContext(ContextProviders)
+    console.log("thing: ", thing)
+
 
     useEffect(() => {
-        fetch("http://localhost:8080/inventory", {
+        fetch("http://localhost:8080/my-inventory/", {
             method: "GET",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -31,6 +37,8 @@ function Inventory() {
         <td>{item.item_name}</td>
         <td>{item.description}</td>
         <td>{item.quantity}</td>
+        <td><input type="button" value="Update" /></td>
+        <td><input type="button" value="Delete" onClick={e => deleteItem(item)}/></td>
         </tr> )
 
     function addItem(){
@@ -57,7 +65,55 @@ function Inventory() {
 
     return (
         <>
-      <h3> Inventory Table</h3>
+        <br></br>
+        <h1>Inventory Management System</h1>
+        <hr></hr>
+        
+        <h3 style={{
+        display:"flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+        }}>Add New Item</h3>
+
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1" >Item Name</InputGroup.Text>
+        <Form.Control
+          onChange={e => setItemName(e.target.value)}
+          placeholder="Enter item name"
+          aria-label="itemName"
+          aria-describedby="basic-addon1"
+        />
+      </InputGroup>
+      <InputGroup className="mb-3">
+        <InputGroup.Text id="basic-addon1">Quantity</InputGroup.Text>
+        <Form.Control
+        onChange={e => setQuantity(e.target.value)}
+          placeholder="Enter number"
+          aria-label="quantity"
+          aria-describedby="basic-addon1"
+        />
+      </InputGroup>      
+
+      <InputGroup>
+        <InputGroup.Text>Item Description</InputGroup.Text>
+        <Form.Control as="textarea" aria-label="Item Description" onChange={e => setDescription(e.target.value)} />
+        <Button variant="outline-secondary" className="btn btn-success" id="button-addon2" onClick={() => addItem()}>
+          Add New Entry
+        </Button>
+      </InputGroup>
+      <hr></hr>
+      <br></br>
+      <div style={{
+        display:"flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center"
+        }}>
+
+        <h3>My Inventory Items</h3>
+        <input type="button" value="Edit Table" onClick={() => setEditState((!editState))} />
+      </div>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -66,6 +122,8 @@ function Inventory() {
                         <th>Item Name</th>
                         <th>Description</th>
                         <th>Quantity</th>
+                        <th>Edit</th>
+                        <th>Remove</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,4 +134,4 @@ function Inventory() {
     );
 }
 
-export default Inventory;
+export default MyInventory;

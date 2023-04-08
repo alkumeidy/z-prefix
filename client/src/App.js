@@ -1,24 +1,52 @@
 import './App.css';
 import AppNavbar from './components/AppNavbar';
-import {react, createContext, useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import {createContext, useEffect, useState } from 'react';
+import React from 'react';
 import Inventory from './components/Inventory';
-import Login from './components/Login';
+import { Routes, Route } from 'react-router-dom'
+import Register from './components/Register'
+import Login from './components/Login'
+import MyInventory from './components/MyInventory';
+// import { LoggedInContext, UserInfoContext } from './Login'
+import ContextProviders from './components/ContextProviders';
 
+export const LoggedInContext = createContext({
+  loggedIn: false,
+  setLoggedIn: (login) => {}
+});
 
-export const LoggedInContext = createContext();
-export const UserInfoContext = createContext();
+export const UserInfoContext = createContext({
+  user: {},
+  setUser: (user) => {}
+});
+
 
 function App() {
-  return (
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [users, setUsers] = useState();
+    const [user, setUser] = useState({});
+    const [loggedIn, setLoggedIn] = useState(false);
+
+
+    // const loggedInContext = React.createContext(false)
+    // const userContext = React.createContext({})
+    
+    return (
     <>
+      <ContextProviders loggedIn={[loggedIn, setLoggedIn]} user={[user, setUser]}>
       <AppNavbar />
-      <Routes>
-      <Route path="/Login" element={<Login />}/>
-        <Route path="/Inventory" element={<Inventory />}/>
-      </Routes>
+        <Routes>
+          <Route exact path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/Inventory" element={<Inventory />}/>
+          <Route path="/Inventory/:id" element={<Inventory />}/>
+          <Route path="/my-inventory" element={<MyInventory />}/>
+        </Routes>
+      </ContextProviders>
     </>
-  );
+    )
 }
 
 export default App;
