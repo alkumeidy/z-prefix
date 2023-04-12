@@ -8,6 +8,8 @@ import Register from './components/Register'
 import Login from './components/Login'
 import MyInventory from './components/MyInventory';
 import LoginError from './components/LoginError';
+import SingleItem from'./components/SingleItem';
+import EditSingleItem from './components/EditSingleItem';
 
 
 
@@ -23,8 +25,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/Inventory" element={<Inventory />}/>
-          <Route path="/Inventory/:id" element={<Inventory />}/>
-          <Route path="/my-inventory/:id" element={<MyInventory /> }/>
+          <Route path="/Inventory/:id" element={<SingleItem />}/>
+          <Route path="/my-inventory" element={<MyInventory />}/>
+          <Route path="/my-inventory/:id" element={<EditSingleItem /> }/>
         </Routes>
     </>
     )

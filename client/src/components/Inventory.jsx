@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Table from 'react-bootstrap/Table';
+import { useNavigate } from "react-router-dom";
 
-//window.sessionStorage.setItem("reducer", JSON.stringify([{"loggedIn": false, "user": {}}]));
-const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
 function Inventory() {
 
     const [inventory, setInventory] = useState([]);
+    const navigate = useNavigate();
+
 
 
     useEffect(() => {
@@ -24,8 +25,9 @@ function Inventory() {
         <td>{item.id}</td>
         <td>{item.user_id}</td>
         <td>{item.item_name}</td>
-        <td>{item.description}</td>
+        <td>{item.description.substr(0,100)}...</td>
         <td>{item.quantity}</td>
+        <td><input type="button" value="View" onClick={e => navigate(`/inventory/${item.id}`)}/></td>
         </tr> )
 
     return (
@@ -39,6 +41,7 @@ function Inventory() {
                         <th>Item Name</th>
                         <th>Description</th>
                         <th>Quantity</th>
+                        <th>View Details</th>
                     </tr>
                 </thead>
                 <tbody>

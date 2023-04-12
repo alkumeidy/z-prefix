@@ -7,6 +7,9 @@ import useCookie from "./useCookie"
 function AppNavbar() {
   const [cookie, updateCookie] = useCookie("userId", null )
   const href = `/my-inventory/${cookie}`
+  const logout = () => {
+    updateCookie(null);
+  }
 
   return (
     <Navbar bg="primary" variant="dark">
@@ -17,6 +20,7 @@ function AppNavbar() {
         <Nav.Link href="/register">Register</Nav.Link>
         <Nav.Link href="/inventory">Inventory</Nav.Link>
         {cookie > 0 && <Nav.Link href={href}> My Inventory</Nav.Link>}
+        <Nav.Link href="/" onClick={logout}>Log Out</Nav.Link>
       </Nav>
     </Container>
   </Navbar>

@@ -42,7 +42,7 @@ function Login() {
         for (let user of users) {
             if (user.username === un && user.password === pw) {
                 updateLogStatus(user);
-              return navigate("/");
+              return navigate(`/my-inventory/${cookie}`);
 
             } else {
                 continue;

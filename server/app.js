@@ -11,6 +11,10 @@ const postNewItem = (item) => {
   return knex("inventory").insert(item);
 };
 
+const editItem = (item) => {
+  return knex("inventory").update(item);
+};
+
 app.get('/inventory', function(req, res) {
     knex
       .select('*')
@@ -25,11 +29,10 @@ app.get('/inventory', function(req, res) {
   });
 
   app.get('/inventory/:id', (req, res) => {
-    let { inv_id } = req.params;
     knex
       .select('*')
       .from('inventory')
-      .where({id:inv_id})
+      .where({id:req.params.id})
       .then(data => res.status(200).json(data))
       .catch(err =>
         res.status(404).json({
@@ -58,13 +61,17 @@ app.get('/inventory', function(req, res) {
       .then(data => res.status(200).json(data))
   })
 
-  app.patch("/inventory/:id", (req, res) => {
-    knex
-      .del()
-      .from('inventory')
-      .where({id:req.params.id})
-      .then(data => res.status(200).json(data))
-  })
+
+  app.put("/inventory/:id", (req, res) => {
+    // console.log(req.body)
+    const { id, user_id, item_name, description, quantity} = req.body
+    db.select('*')
+        .from('inventory')
+        .where('id', '=', id)
+        .update({user_id:user_id, item_name:item_name, description:description, quantity:quantity})
+        .then(data => res.status(200).json('Success'))
+        .catch(err => console.log('Error', err));
+})
 
   app.get('/users', function(req, res) {
     knex

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"
 import useCookie from "./useCookie"
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
@@ -14,7 +15,7 @@ function MyInventory() {
     const [quantity, setQuantity] = useState(0);
     const [description, setDescription] = useState("");
     const [editState, setEditState] = useState(false);
-
+    const navigate = useNavigate();
     const [cookie, updateCookie] = useCookie("userId", null )
 
     useEffect(() => {
@@ -28,19 +29,7 @@ function MyInventory() {
             .then((data) => setInventory(data))
     }, [addItem, deleteItem, cookie]);
 
-    // const updateRow(rowId){
-    //     fetch('http://localhost:8080/inventory/', {
-    //         method: 'PATCH',
-    //         body: JSON.stringify({
-    //             //TODO: Add body to update rows
-    //         }),
-    //         headers: {
-    //             'Content-type': 'application/json; charset=UTF-8',
-    //         },
-    //         })
-    //         .then((response) => response.json())
-    //         .then((json) => console.log(json));
-    // }
+
 
     const inventoryArray = inventory.map((item) => <tr key={item.id} contentEditable={editState}>
         <td>{item.id}</td>
@@ -48,7 +37,7 @@ function MyInventory() {
         <td>{item.item_name}</td>
         <td>{item.description}</td>
         <td>{item.quantity}</td>
-        <td><input type="button" value="Update" onClick={e =>  alert(`TODO: Add row update func - row: ${e.target.parentNode.parentNode.firstChild.innerText}`)}/></td>
+        <td><input type="button" value="View/Update" onClick={e => navigate(`my-inventory/${item.id}`)}/></td>
         <td><input type="button" value="Delete" onClick={e => deleteItem(item)}/></td>
         </tr> )
 
@@ -123,7 +112,7 @@ function MyInventory() {
         }}>
 
         <h3>My Inventory Items</h3>
-        <input type="button" value="Edit Table" onClick={() => setEditState((!editState))} />
+
       </div>
             <Table striped bordered hover>
                 <thead>
@@ -133,7 +122,7 @@ function MyInventory() {
                         <th>Item Name</th>
                         <th>Description</th>
                         <th>Quantity</th>
-                        <th>Edit</th>
+                        <th>View/Edit</th>
                         <th>Remove</th>
                     </tr>
                 </thead>
