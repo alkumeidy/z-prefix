@@ -9,29 +9,12 @@ import Login from './components/Login'
 import MyInventory from './components/MyInventory';
 import LoginError from './components/LoginError';
 
-// if (initialStateSaved === undefined) {
-//   const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
-// }
-// const loggedIn = [initialStateSaved][0][0].loggedIn
-// const user = [initialStateSaved][0][0].user
-
-export const LoggedInContext = createContext({
-  loggedIn: false,
-  setLoggedIn: (login) => {}
-});
-
-export const UserInfoContext = createContext({
-  user: {},
-  setUser: (user) => {}
-});
 
 
 function App() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [users, setUsers] = useState();
 
-    
+
+
     return (
     <>
       <AppNavbar />

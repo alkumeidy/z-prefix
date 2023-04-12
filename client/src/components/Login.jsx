@@ -1,16 +1,19 @@
-import React, { useEffect, useState, useContext, createContext } from "react";
-import { setGlobalState, useGlobalState } from './state'
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"
+import useCookie from "./useCookie"
 
 
-const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
-console.log("state on login: ", initialStateSaved)
+
+
 
 function Login() {
+  const [cookie, updateCookie] = useCookie("userId", null )
+  const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState([]);
-    // const [loggedIn, setLoggedIn] = useGlobalState('loggedIn');   
+
 
     useEffect(() => {
             fetch("http://localhost:8080/users", {
@@ -24,25 +27,26 @@ function Login() {
     }, []);
 
 
-    
-    function loginEval(){
+
+    const loginEval= (e)=> {
+      e.preventDefault();
         const un = username;
         const pw = password;
 
         const updateLogStatus = (user) => {
-            setGlobalState("loggedIn", true)
-            setGlobalState("user", user)
-            window.sessionStorage.setItem("reducer", JSON.stringify([{"loggedIn": true, "user": user}]));
+            console.log(user);
+
+            updateCookie(user.id, 10)
         }
 
         for (let user of users) {
             if (user.username === un && user.password === pw) {
                 updateLogStatus(user);
-                return (alert("Logged in successfully."))
-                
+              return navigate("/");
+
             } else {
                 continue;
-            } 
+            }
         } return (alert(`No matching records found for that username and password combination.`))
     }
 
@@ -71,7 +75,7 @@ function Login() {
 
         </div>
         <div className="d-grid">
-          <button type="submit" className="btn btn-primary" onClick={() => loginEval()}>
+          <button type="submit" className="btn btn-primary" onClick={loginEval}>
             Submit
           </button>
         </div>
@@ -79,7 +83,7 @@ function Login() {
           Forgot <a href="http://localhost:3000/signup" onClick={() => alert("That sucks. :( I guess just make a new one? I don't know, I'm not your mom.")}>password?</a>
         </p>
       </form>
-      
+
     )
 }
 

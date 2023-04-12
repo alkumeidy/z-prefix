@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
+import useCookie from "./useCookie"
 import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Button} from 'react-bootstrap';
 
-const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
+
 
 
 function MyInventory() {
     const [inventory, setInventory] = useState([]);
-    const [itemName, setItemName] = useState(""); 
+    const [itemName, setItemName] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [description, setDescription] = useState("");
     const [editState, setEditState] = useState(false);
-    const loggedIn = [initialStateSaved][0][0].loggedIn
-    const user = [initialStateSaved][0][0].user
+
+    const [cookie, updateCookie] = useCookie("userId", null )
 
     useEffect(() => {
-        fetch(`http://localhost:8080/my-inventory/${user.id}`, {
+        fetch(`http://localhost:8080/my-inventory/${cookie}`, {
             method: "GET",
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
@@ -25,7 +26,7 @@ function MyInventory() {
         })
             .then((res) => res.json())
             .then((data) => setInventory(data))
-    }, [addItem, deleteItem, user.id]);
+    }, [addItem, deleteItem, cookie]);
 
     // const updateRow(rowId){
     //     fetch('http://localhost:8080/inventory/', {
@@ -58,7 +59,7 @@ function MyInventory() {
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         },
-        body: JSON.stringify({user_id: user.id, item_name: itemName, quantity: quantity, description: description})
+        body: JSON.stringify({user_id: cookie, item_name: itemName, quantity: quantity, description: description})
         })
     }
 
@@ -78,7 +79,7 @@ function MyInventory() {
         <br></br>
         <h1>Inventory Management System</h1>
         <hr></hr>
-        
+
         <h3 style={{
         display:"flex",
         flexDirection: "row",
@@ -103,7 +104,7 @@ function MyInventory() {
           aria-label="quantity"
           aria-describedby="basic-addon1"
         />
-      </InputGroup>      
+      </InputGroup>
 
       <InputGroup>
         <InputGroup.Text>Item Description</InputGroup.Text>

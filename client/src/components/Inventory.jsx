@@ -5,10 +5,9 @@ import Table from 'react-bootstrap/Table';
 const initialStateSaved =  window.sessionStorage.getItem("reducer") && JSON.parse( window.sessionStorage.getItem("reducer"));
 
 function Inventory() {
-    
+
     const [inventory, setInventory] = useState([]);
-    const loggedIn = [initialStateSaved][0][0].loggedIn
-    const user = [initialStateSaved][0][0].user
+
 
     useEffect(() => {
         fetch("http://localhost:8080/inventory", {
